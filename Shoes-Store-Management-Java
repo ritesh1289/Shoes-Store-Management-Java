@@ -1,0 +1,167 @@
+import java.util.*;
+import java.text.SimpleDateFormat;
+
+class Shoe {
+    int id;
+    String brand;
+    double price;
+    int size;
+    int stock;
+
+    Shoe(int id, String brand, double price, int size, int stock) {
+        this.id = id;
+        this.brand = brand;
+        this.price = price;
+        this.size = size;
+        this.stock = stock;
+    }
+}
+
+class Purchase {
+    String brand;
+    int size;
+    int qty;
+    double price;
+
+    Purchase(String brand, int size, int qty, double price) {
+        this.brand = brand;
+        this.size = size;
+        this.qty = qty;
+        this.price = price;
+    }
+}
+
+public class project {
+    static Scanner sc = new Scanner(System.in);
+    static ArrayList<Shoe> shoeList = new ArrayList<>();
+    static ArrayList<Purchase> cart = new ArrayList<>();
+    static Random rand = new Random();
+
+    public static void main(String[] args) {
+        addDefaultShoes();
+        showLogo();
+
+        int choice;
+        do {
+            System.out.println("\n========= 👟 OPTIMUM MAIN MENU 👟 =========");
+            System.out.println("1. Show Shoe Collection");
+            System.out.println("2. Buy Shoes");
+            System.out.println("3. Show Optimum Total Bill");
+            System.out.println("4. Exit Optimum Shop");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+
+            switch (choice) {
+                case 1 -> viewShoes();
+                case 2 -> buyShoes();
+                case 3 -> showTotalBill();
+                case 4 -> showExitMessage();
+                default -> System.out.println("❌ Invalid choice! Try again.");
+            }
+        } while (choice != 4);
+    }
+
+    static void showLogo() {
+        System.out.println("===================================1==================");
+        System.out.println("          👟✨  OPTIMUM SHOE COLLECTION  ✨👟");
+        System.out.println("=====================================================");
+        System.out.println("     Premium Quality | Comfort Fit | Stylish Design");
+        System.out.println("=====================================================");
+    }
+
+    static void addDefaultShoes() {
+        shoeList.add(new Shoe(1, "Nike ", 4999.99, 9, 10));
+        shoeList.add(new Shoe(2, "Adidas ", 5899.50, 8, 12));
+        shoeList.add(new Shoe(3, "Puma ", 3599.75, 10, 8));
+        shoeList.add(new Shoe(4, "Reebok ", 2899.00, 7, 15));
+        shoeList.add(new Shoe(5, "Bata ", 1899.25, 8, 20));
+        shoeList.add(new Shoe(6, "Skechers ", 4199.99, 9, 10));
+        shoeList.add(new Shoe(7, "Woodland ", 3799.49, 10, 6));
+        shoeList.add(new Shoe(8, "Campus ", 2499.99, 8, 18));
+        shoeList.add(new Shoe(9, "Sparx ", 2199.59, 9, 25));
+        shoeList.add(new Shoe(10, "Red Tape 2", 3299.00, 10, 12));
+    }
+
+    static void viewShoes() {
+        System.out.println("\n------------------ 🥿 SHOE COLLECTION 🥿 ------------------");
+        System.out.printf("%-3s %-20s %-10s %-10s %-10s\n", "ID", "Brand", "Size", "Price", "Stock");
+        System.out.println("-----------------------------------------------------------");
+        for (Shoe s : shoeList) {
+            System.out.printf("%-3d %-20s %-10d ₹%-9.2f %-10d\n", s.id, s.brand, s.size, s.price, s.stock);
+        }
+    }
+
+    static void buyShoes() {
+        viewShoes();
+        System.out.print("\nEnter Shoe ID to Buy: ");
+        int id = sc.nextInt();
+
+        for (Shoe s : shoeList) {
+            if (s.id == id) {
+                System.out.print("Enter Quantity: ");
+                int qty = sc.nextInt();
+
+                if (qty <= s.stock && qty > 0) {
+                    s.stock -= qty;
+                    cart.add(new Purchase(s.brand, s.size, qty, s.price));
+                    System.out.println("✅ Added to cart successfully!");
+                } else {
+                    System.out.println("❌ Not enough stock available!");
+                }
+                return;
+            }
+        }
+        System.out.println("❌ Invalid Shoe ID!");
+    }
+
+    static void showTotalBill() {
+        if (cart.isEmpty()) {
+            System.out.println("\n🛒 No items purchased yet!");
+            return;
+        }
+
+        double subtotal = 0;
+        System.out.println("\n=====================================================");
+        System.out.println("              🧾 OPTIMUM TOTAL BILL 🧾");
+        System.out.println("=====================================================");
+        System.out.printf("%-20s %-10s %-10s %-10s\n", "Brand", "Size", "Qty", "Price");
+        System.out.println("-----------------------------------------------------");
+
+        for (Purchase p : cart) {
+            double total = p.qty * p.price;
+            System.out.printf("%-20s %-10d %-10d ₹%-9.2f\n", p.brand, p.size, p.qty, total);
+            subtotal += total;
+        }
+
+        double gst = subtotal * 0.05;
+        double grandTotal = subtotal + gst;
+        System.out.println("-----------------------------------------------------");
+        System.out.printf("Subtotal        : ₹%.2f\n", subtotal);
+        System.out.printf("GST (5%%)        : ₹%.2f\n", gst);
+        System.out.println("-----------------------------------------------------");
+        System.out.printf("Optimum Total   : ₹%.2f\n", grandTotal);
+        System.out.println("=====================================================");
+    }
+
+    static void showExitMessage() {
+        System.out.println("\n=====================================================");
+        System.out.println("         👟 OPTIMUM SHOE COLLECTION 👟");
+        System.out.println("    Comfort | Quality | Style | Since 2025");
+        System.out.println("=====================================================");
+        System.out.println("          🧾 FINAL OPTIMUM BILL 🧾");
+
+        if (cart.isEmpty()) {
+            System.out.println("No items purchased. Thank you for visiting!");
+        } else {
+            showTotalBill();
+            String billNo = "OPT" + (1000 + rand.nextInt(9000));
+            String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
+            System.out.println("Bill No  : " + billNo);
+            System.out.println("Date     : " + date);
+        }
+
+        System.out.println("=====================================================");
+        System.out.println("       💖 Thank You for Shopping with Us 💖");
+        System.out.println("=====================================================");
+    }
+}
