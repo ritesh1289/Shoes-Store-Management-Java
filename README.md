@@ -3,6 +3,8 @@
 A fully functional Java-based Shoes Store Management System with a console interface.
 Browse, buy, and manage shoes with real-time inventory tracking, dynamic billing including GST, and automated receipt generation.
 
+---
+
 🎮 Controls
 
 Use the console menu to interact with the store:
@@ -14,6 +16,8 @@ Use the console menu to interact with the store:
 3 – Show Total Bill
 
 4 – Exit Store
+
+---
 
 ✨ Features
 
@@ -49,14 +53,18 @@ Randomized bill numbers for uniqueness
 
 Timestamp for every transaction
 
+---
+
 🛠 Requirements
 
 Java JDK 8 or higher
 
 Console-based environment (Eclipse, IntelliJ, or terminal)
 
+---
+
 ▶ How to Run
 
 Clone the repository:
 
-git clone https://github.com/your-username/Shoes-Store-Management-Java.git
+git clone https://github.com/ritesh1289/Shoes-Store-Management-Java/blob/main/Shoes-Store-Management-Java
